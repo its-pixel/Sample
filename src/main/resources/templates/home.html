@@ -16,13 +16,8 @@
     <script>
         function getInputValue(){
             var inputVal = document.getElementById("fff1").value;
-            if(isNaN(inputVal)){
-
-            }
-            else{
-                if(inputVal<2000 || inputVal>2021) {
-                    alert("Please input Year between 2000 and 2021");
-                }
+            if(inputVal &&( inputVal<2000 || inputVal>2021)) {
+                alert("Please input Year between 2000 and 2021");
             }
 
         }
