@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function getInputValue(){
+            var inputVal = document.getElementById("fff1").value;
+            if(isNaN(inputVal)){
+
+            }
+            else{
+                if(inputVal<2000 || inputVal>2021) {
+                    alert("Please input Year between 2000 and 2021");
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div >
+        <h1 align="left">Query Your Stock Here</h1>
+        <form action="/exportStockHistory">
+            <table>
+
+                <tr></tr><br>
+                <tr>
+                    <td>Company Name :</td>
+                    <td><input type="text"
+                               placeholder="Enter Stock Name" name="stockName"
+                               required="required" /></td>
+                </tr>
+                <tr></tr><br>
+                <tr>
+                    <td>From Year :</td>
+                    <td><input type="text"
+                               placeholder="Year" name="year" id = "fff1"/></td>
+                </tr>
+                <tr>
+                    <td>Frequency :</td>
+                    <td><select name="freq"
+                                style="width: 205px;">
+                        <option value="Other">Select</option>
+                        <option value="DAILY">Daily</option>
+                        <option value="WEEKLY">Weekly</option>
+                        <option value="MONTHLY">Monthly</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr></tr><br>
+                <tr>
+                    <td></td>
+                    <td align="left">
+                        <button type="submit" onclick="getInputValue();">Search</button>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+
+    </div>
+    <br>
+
+
+
+
+
+</div>
+<div class="container">
+    <h2>Stock Details</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Currency</th>
+            <th>Change</th>
+            <th>Bid</th>
+            <th>priceHint</th>
+            <th>History</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stockDto : ${stockList}">
+            <td th:text="${stockDto.name}"></td>
+            <td th:text="${stockDto.price}"></td>
+            <td th:text="${stockDto.currency}"></td>
+            <td th:text="${stockDto.change}"></td>
+            <td th:text="${stockDto.bid}"></td>
+            <td th:text="${stockDto.priceHint}"></td>
+            <td><a th:href="@{/exportStockHistory/}+${stockDto.stockName}"
+                   type="button" >History</a></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2 th:text="${msg}"></h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr th:each="history : ${histories}">
+                <td th:text="${history.symbol}"></td>
+                <td th:text="${history.date}"></td>
+                <td th:text="${history.high}"></td>
+                <td th:text="${history.low}"></td>
+                <td th:text="${history.close}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
